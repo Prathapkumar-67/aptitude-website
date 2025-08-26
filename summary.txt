@@ -1,0 +1,233 @@
+ Project Summary: Quantitative Aptitude Learning Platform
+
+🔧 Technology Stack
+
+Backend: Django, Django REST Framework (DRF)
+
+Frontend: Django Templates (HTML, CSS, JS)
+
+Database: SQLite (can be swapped with PostgreSQL/MySQL)
+
+Authentication: Custom User Model (with roles: admin, student), Login via Email
+
+Deployment: Firebase Hosting (Planned)
+
+👥 User Roles
+Admin (manually created by developer)
+
+Access to a custom-built Admin Dashboard (not Django Admin)
+
+Full control over:
+
+Topics
+
+Subtopics
+
+Questions
+
+Student
+
+Can sign up and log in
+
+Access learning content:
+
+Subtopics
+
+Video lessons
+
+Practice questions
+
+🧠 Core Features
+✅ Student Features
+Sign up using Email, Username, Password
+
+Automatic login after signup
+
+Access subtopics, video lessons, and practice questions (organized by difficulty)
+
+Track practice progress (streaks, stats — future)
+
+🛠️ Admin Dashboard (3 Phases)
+Phase 1: Topic Management
+View all topics as buttons
+
+Add topic (Name, Category: common, it, govt)
+
+Delete topic (only if no subtopics)
+
+Navigate to subtopics of a topic
+
+Phase 2: Subtopic Management
+View subtopics of selected topic
+
+Show count of Easy/Medium/Hard questions
+
+Add/Delete subtopics
+
+Navigate to questions in a subtopic
+
+Phase 3: Question Management
+Filter by difficulty (Easy, Medium, Hard)
+
+View questions with options and correct answer
+
+Add/Edit/Delete questions
+
+🔒 Authentication
+Custom login using email and password
+
+Django authentication system customized
+
+Passwords are securely hashed
+
+Duplicate email restriction during signup
+
+🧪 Development Workflow
+Completed backend logic and database modeling
+
+Developed user authentication and custom admin flow
+
+Implemented admin dashboard with 3-phase UI
+
+Validated functionalities
+
+Ready for UI styling and template population
+
+Final deployment planned on Firebase
+
+📌 Future Enhancements (Planned)
+Add mock tests automatically using AI
+
+Display practice analytics to students
+
+Enhance frontend UI/UX
+
+Add video upload system for lessons
+
+Fine-tune AI model with collected practice questions
+
+
+
+
+
+models.py Summary
+This file defines the database schema using Django's ORM. It includes models for users, topics, subtopics, and questions.
+
+🔹 1. User Model (Custom)
+Inherits from AbstractUser
+
+Extended with a role field (admin, student)
+
+Used for role-based access control
+
+🔹 2. Topic
+Fields:
+
+name: name of the topic
+
+category: choice field (common, it, govt)
+
+display_order: integer to define the order (used in dashboard)
+
+Relationships:
+
+One-to-many with Subtopic
+
+🔹 3. Subtopic
+Fields:
+
+name
+
+Relationships:
+
+ForeignKey to Topic
+
+One-to-many with Question
+
+🔹 4. Question
+Fields:
+
+question_text
+
+option1, option2, option3, option4
+
+correct_option
+
+difficulty: choice field (easy, medium, hard)
+
+Relationships:
+
+ForeignKey to Subtopic
+
+📄 views.py Summary
+This file defines logic for handling HTTP requests, rendering templates, and managing user actions.
+
+🔹 1. Authentication Views
+signup_view:
+
+Allows only student signup (admin is created manually)
+
+Validates unique email
+
+Password is hashed
+
+Automatically logs in the user after signup
+
+login_view:
+
+Authenticates using email instead of username
+
+Redirects to admin dashboard if role is admin, else to student area
+
+logout_view:
+
+Logs out user and redirects to login
+
+🔹 2. Admin Dashboard Views (Protected with @admin_required)
+✅ admin_dashboard_view (Phase 1)
+Shows all topics
+
+Handles:
+
+Adding topics (with name, category, display_order auto-managed)
+
+Deleting topics (prevents deletion if subtopics exist)
+
+✅ subtopic_phase_view (Phase 2)
+Shows all subtopics under a topic
+
+Displays count of questions by difficulty
+
+Handles:
+
+Adding subtopics
+
+Deleting subtopics
+
+✅ question_phase_view (Phase 3)
+Displays all questions in a subtopic
+
+Can be filtered by difficulty
+
+Handles:
+
+Adding questions
+
+Deleting questions
+
+🔹 3. Utility Decorators
+@admin_required:
+
+Ensures only admins can access admin routes
+
+@login_required:
+
+Used to protect views from anonymous access
+
+🔹 4. Additional Notes
+Uses Django forms (request.POST.get()) to receive user input
+
+Redirects and templates are managed for smooth flow
+
+All CRUD actions are form-based with HTML templates
+

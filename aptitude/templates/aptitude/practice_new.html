@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice | EduPlatform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 24px;
+            padding: 24px;
+        }
+
+        .question-section {
+            flex: 2;
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtopic-header {
+            margin-bottom: 24px;
+        }
+
+        .subtopic-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .difficulty-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .difficulty-btn {
+            padding: 8px 24px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .difficulty-btn.easy {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .difficulty-btn.medium {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .difficulty-btn.hard {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .difficulty-btn.active {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-container {
+            margin-bottom: 32px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .timer {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .option-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-item:hover {
+            border-color: #3b82f6;
+            background: #f0f8ff;
+        }
+
+        .option-item.selected {
+            border-color: #3b82f6;
+            background: #e3f2fd;
+        }
+
+        .option-radio {
+            width: 18px;
+            height: 18px;
+            accent-color: #3b82f6;
+        }
+
+        .submit-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .progress-section {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-label {
+            font-weight: 500;
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        .progress-value.solved {
+            color: #10b981;
+        }
+
+        .progress-value.remaining {
+            color: #ef4444;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .nav-btn {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: #e9ecef;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'video_lesson' subtopic.id %}" class="back-btn">←</a>
+        <div class="header-title">Aptitude</div>
+    </div>
+
+    <div class="main-container">
+        <div class="question-section">
+            <div class="subtopic-header">
+                <div class="subtopic-name">{{ subtopic.name }}</div>
+                
+                <div class="difficulty-buttons">
+                    <a href="{% url 'practice_new' subtopic.id 'easy' 0 %}" class="difficulty-btn easy {% if difficulty == 'easy' %}active{% endif %}">Easy</a>
+                    <a href="{% url 'practice_new' subtopic.id 'medium' 0 %}" class="difficulty-btn medium {% if difficulty == 'medium' %}active{% endif %}">Medium</a>
+                    <a href="{% url 'practice_new' subtopic.id 'hard' 0 %}" class="difficulty-btn hard {% if difficulty == 'hard' %}active{% endif %}">Hard</a>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header">
+                    <div class="question-title">Question {{ q_index|add:1 }}</div>
+                    <div class="timer" id="timer">00:05:00</div>
+                </div>
+
+                <div class="question-text">{{ question.text }}</div>
+
+                <form method="post" id="practice-form">
+                    {% csrf_token %}
+                    <div class="options-container">
+                        {% for opt in options %}
+                            <label class="option-item" onclick="selectOption(this)">
+                                <input type="radio" name="option_id" value="{{ opt.id }}" class="option-radio" required>
+                                <span>{{ opt.text }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    <input type="hidden" name="time_taken" id="time_taken" value="0">
+                    <button type="submit" class="submit-btn" id="submit-btn" disabled>Submit</button>
+                </form>
+
+                <div class="navigation-buttons">
+                    {% if q_index > 0 %}
+                        <a href="{% url 'practice_new' subtopic.id difficulty q_index|add:'-1' %}" class="nav-btn">← Previous</a>
+                    {% else %}
+                        <span></span>
+                    {% endif %}
+                    
+                    <a href="{% url 'practice_new' subtopic.id difficulty q_index|add:'1' %}" class="nav-btn">Next →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-title">Test Progress</div>
+            
+            <div class="progress-item">
+                <span class="progress-label">Total Questions</span>
+                <span class="progress-value">{{ total_questions }}</span>
+            </div>
+            
+            <div class="progress-item">
+                <span class="progress-label">Solved</span>
+                <span class="progress-value solved">{{ solved_count }}</span>
+            </div>
+            
+            <div class="progress-item">
+                <span class="progress-label">Remaining</span>
+                <span class="progress-value remaining">{{ remaining_count }}</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectOption(element) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Enable submit button
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+        // Timer functionality
+        let timeLeft = 300; // 5 minutes in seconds
+        const timerElement = document.getElementById('timer');
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                // Auto-submit when time runs out
+                document.getElementById('practice-form').submit();
+            } else {
+                timeLeft--;
+            }
+        }
+        
+        // Update timer every second
+        setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call
+    </script>
+</body>
+</html>

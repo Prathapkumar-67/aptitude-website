@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic.name }} | Subtopics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            background: white;
+            padding: 24px 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #2563eb;
+        }
+
+        .nav-btn.home {
+            background: #059669;
+        }
+
+        .nav-btn.home:hover {
+            background: #047857;
+        }
+
+        .nav-btn.logout {
+            background: #dc2626;
+        }
+
+        .nav-btn.logout:hover {
+            background: #b91c1c;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            color: #1e293b;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+
+        .subtopics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subtopic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: #334155;
+            display: block;
+        }
+
+        .subtopic-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .subtopic-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .subtopic-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        .back-btn {
+            background: white;
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+            padding: 16px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-top: 48px;
+        }
+
+        .back-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 64px 32px;
+            color: #94a3b8;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .subtopics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">{{ topic.name }}</h1>
+        <div class="nav-buttons">
+            {% if user.role == 'student' %}
+            <a href="{% url 'home' %}" class="nav-btn home">
+                🏠 Home
+            </a>
+            {% endif %}
+            <a href="{% url 'logout_view' %}" class="nav-btn logout">
+                🚪 Logout
+            </a>
+        </div>
+    </div>
+
+    <h1 class="page-title">📚 Subtopics</h1>
+    <p class="page-subtitle">Choose a subtopic to start learning</p>
+
+    {% if subtopics %}
+        <div class="subtopics-grid">
+            {% for sub in subtopics %}
+                <a href="{% url 'video_lesson' sub.id %}" class="subtopic-card">
+                    <div class="subtopic-icon">📖</div>
+                    <div class="subtopic-name">{{ sub.name }}</div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📚</div>
+            <h3>No subtopics available</h3>
+            <p>This topic doesn't have any subtopics yet.</p>
+        </div>
+    {% endif %}
+
+    {% if user.role == 'student' %}
+    <a href="{% url 'home' %}" class="back-btn">
+        ← Back to Topics
+    </a>
+    {% endif %}
+</body>
+</html>

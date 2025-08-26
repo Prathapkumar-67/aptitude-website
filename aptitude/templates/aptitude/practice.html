@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subtopic.name }} | Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            background: white;
+            padding: 24px 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #2563eb;
+        }
+
+        .nav-btn.home {
+            background: #059669;
+        }
+
+        .nav-btn.home:hover {
+            background: #047857;
+        }
+
+        .nav-btn.logout {
+            background: #dc2626;
+        }
+
+        .nav-btn.logout:hover {
+            background: #b91c1c;
+        }
+
+        .practice-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .question-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .question-meta {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: #f1f5f9;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 16px;
+        }
+
+        .option-item {
+            background: rgba(71, 85, 105, 0.5);
+            border: 2px solid rgba(71, 85, 105, 0.5);
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .option-item.selected {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            accent-color: #6366f1;
+        }
+
+        .option-text {
+            font-size: 16px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .prev-btn {
+            background: rgba(51, 65, 85, 0.8);
+            color: white;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .prev-btn:hover {
+            background: rgba(71, 85, 105, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .timer {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            background: rgba(51, 65, 85, 0.8);
+            color: white;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            margin-bottom: 32px;
+        }
+
+        .back-btn:hover {
+            background: rgba(71, 85, 105, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .question-card {
+                padding: 24px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">Practice Mode</h1>
+        <div class="nav-buttons">
+            {% if user.role == 'student' %}
+            <a href="{% url 'home' %}" class="nav-btn home">
+                🏠 Home
+            </a>
+            {% endif %}
+            <a href="{% url 'logout_view' %}" class="nav-btn logout">
+                🚪 Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="practice-container">
+        <a href="{% url 'video_lesson' subtopic.id %}" class="back-btn">
+            ← Back to Lesson
+        </a>
+
+        <div class="question-header">
+            <h1 class="question-title">{{ subtopic.name }}</h1>
+            <p class="question-meta">{{ difficulty|title }} Question {{ q_index|add:1 }}</p>
+        </div>
+
+        <form method="post" id="practice-form">
+            {% csrf_token %}
+            <div class="question-card">
+                <div class="question-text">{{ question.text }}</div>
+
+                <div class="options-container">
+                    {% for opt in options %}
+                        <label class="option-item" onclick="selectOption(this)">
+                            <input type="radio" name="option_id" value="{{ opt.id }}" class="option-radio" required>
+                            <span class="option-text">{{ opt.text }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <input type="hidden" name="time_taken" id="time_taken" value="0">
+
+            <div class="form-actions">
+                {% if q_index > 0 %}
+                    <a href="{% url 'practice' subtopic.id difficulty q_index|add:"-1" %}" class="prev-btn">
+                        ← Previous Question
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+
+                <div class="timer" id="timer">Time: 00:00</div>
+
+                <button type="submit" class="submit-btn" id="submit-btn" disabled>
+                    Submit Answer
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let startTime = Date.now();
+        let timerInterval;
+
+        // Timer functionality
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer').textContent =
+                `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Start timer
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Option selection
+        function selectOption(label) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add selected class to clicked option
+            label.classList.add('selected');
+
+            // Enable submit button
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+        // Form submission
+        document.getElementById('practice-form').onsubmit = function () {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('time_taken').value = elapsed;
+            clearInterval(timerInterval);
+        };
+
+        // Auto-select option when radio button is clicked
+        document.querySelectorAll('.option-radio').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('submit-btn').disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

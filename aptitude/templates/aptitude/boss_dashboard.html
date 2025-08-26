@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss Dashboard | EduPlatform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+            color: #1a202c;
+        }
+
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1f2937;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .nav-link.active {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logout-btn {
+            background: #f3f4f6;
+            color: #6b7280;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .main-content {
+            padding: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #3b82f6;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .topics-section {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .topics-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topics-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .topics-count {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .topics-content {
+            padding: 24px;
+        }
+
+        .topics-list {
+            space-y: 12px;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .topic-item:last-child {
+            border-bottom: none;
+        }
+
+        .topic-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topic-icon {
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .topic-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .topic-details p {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .topic-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #2563eb;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 16px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #dc2626;
+            margin-bottom: 24px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 16px;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .header {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+            EduPlatform
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">
+                📊 Dashboard
+            </a>
+        </div>
+        <div class="user-menu">
+            <a href="{% url 'logout_view' %}" class="logout-btn">
+                🚪 Logout
+            </a>
+            <div class="user-avatar">B</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Manage your educational platform with ease</p>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Total Topics</div>
+                    <div class="stat-icon" style="background: #dbeafe; color: #3b82f6;">📚</div>
+                </div>
+                <div class="stat-number">{{ topics.count }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Total Subtopics</div>
+                    <div class="stat-icon" style="background: #dcfce7; color: #16a34a;">📋</div>
+                </div>
+                <div class="stat-number">{{ total_subtopics }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Total Questions</div>
+                    <div class="stat-icon" style="background: #fef3c7; color: #d97706;">❓</div>
+                </div>
+                <div class="stat-number">{{ total_questions }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-icon" style="background: #fed7d7; color: #e53e3e;">👥</div>
+                </div>
+                <div class="stat-number">{{ total_users }}</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">📁</div>
+                <h2 class="section-title">Topics Management</h2>
+            </div>
+
+            {% if error %}
+                <div class="error-message">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <div class="topics-section">
+                <div class="topics-header">
+                    <div class="topics-title">
+                        🌐 Common Topics
+                        <span class="topics-count">{{ topics.count }} topics</span>
+                    </div>
+                </div>
+                <div class="topics-content">
+                    <div class="topics-list">
+                        {% for topic in topics %}
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <div class="topic-icon">📖</div>
+                                    <div class="topic-details">
+                                        <h3>{{ topic.name }}</h3>
+                                        <p>{{ topic.category }} category</p>
+                                    </div>
+                                </div>
+                                <div class="topic-actions">
+                                    <button class="btn-sm btn-edit" onclick="window.location.href='{% url 'subtopic_phase' topic.id %}'">
+                                        Manage
+                                    </button>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div style="text-align: center; padding: 48px; color: #6b7280;">
+                                <div style="font-size: 48px; margin-bottom: 16px;">📚</div>
+                                <h3>No topics yet</h3>
+                                <p>Add your first topic to get started</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="form-title">➕ Add New Topic</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="add_topic">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Topic Name</label>
+                            <input type="text" name="name" class="form-input" placeholder="e.g., Number System" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option value="Common">Common</option>
+                                <option value="IT-specific">IT Specific</option>
+                                <option value="Govt-specific">Govt Specific</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Topic</button>
+                </form>
+            </div>
+
+            {% if topics %}
+            <div class="form-section">
+                <h3 class="form-title">✏️ Edit Topic</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="edit_topic">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Select Topic to Edit</label>
+                            <select name="topic_id" class="form-select" required onchange="loadTopicData(this)">
+                                <option value="">Choose a topic</option>
+                                {% for topic in topics %}
+                                    <option value="{{ topic.id }}" data-name="{{ topic.name }}" data-category="{{ topic.category }}">{{ topic.name }} ({{ topic.category }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">New Topic Name</label>
+                            <input type="text" name="name" id="edit-name" class="form-input" placeholder="Enter new topic name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">New Category</label>
+                            <select name="category" id="edit-category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option value="Common">Common</option>
+                                <option value="IT-specific">IT Specific</option>
+                                <option value="Govt-specific">Govt Specific</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Update Topic</button>
+                </form>
+            </div>
+
+            <div class="form-section">
+                <h3 class="form-title">🗑️ Delete Topic</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_topic">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Select Topic to Delete</label>
+                            <select name="topic_id" class="form-select" required>
+                                <option value="">Choose a topic</option>
+                                {% for topic in topics %}
+                                    <option value="{{ topic.id }}">{{ topic.name }} ({{ topic.category }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="background: #ef4444;" onclick="return confirm('Are you sure you want to delete this topic? This action cannot be undone.')">Delete Topic</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Only topics tab exists now, so no need to hide/show
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+
+
+        function loadTopicData(select) {
+            const selectedOption = select.options[select.selectedIndex];
+            if (selectedOption.value) {
+                document.getElementById('edit-name').value = selectedOption.getAttribute('data-name');
+                document.getElementById('edit-category').value = selectedOption.getAttribute('data-category');
+            } else {
+                document.getElementById('edit-name').value = '';
+                document.getElementById('edit-category').value = '';
+            }
+        }
+    </script>
+
+
+</body>
+</html>

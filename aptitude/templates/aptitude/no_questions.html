@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Questions | EduPlatform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .no-questions-card {
+            background: white;
+            border-radius: 12px;
+            padding: 48px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .no-questions-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.5;
+        }
+
+        .no-questions-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .no-questions-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .difficulty-info {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+
+        .difficulty-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .difficulty-value {
+            color: #3b82f6;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .difficulty-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .difficulty-btn.easy {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .difficulty-btn.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-btn.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .difficulty-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'video_lesson' subtopic.id %}" class="back-btn">←</a>
+        <div class="header-title">{{ subtopic.name }}</div>
+    </div>
+
+    <div class="main-container">
+        <div class="no-questions-card">
+            <div class="no-questions-icon">📝</div>
+            <h1 class="no-questions-title">No Questions Yet</h1>
+            <p class="no-questions-message">{{ message }}</p>
+            
+            <div class="difficulty-info">
+                <span class="difficulty-label">Current Difficulty: </span>
+                <span class="difficulty-value">{{ difficulty }}</span>
+            </div>
+
+            <div class="difficulty-buttons">
+                <a href="{% url 'practice_new' subtopic.id 'easy' 0 %}" class="difficulty-btn easy">Try Easy</a>
+                <a href="{% url 'practice_new' subtopic.id 'medium' 0 %}" class="difficulty-btn medium">Try Medium</a>
+                <a href="{% url 'practice_new' subtopic.id 'hard' 0 %}" class="difficulty-btn hard">Try Hard</a>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{% url 'video_lesson' subtopic.id %}" class="btn btn-primary">
+                    📚 Back to Lesson
+                </a>
+                {% if user.role == 'student' %}
+                <a href="{% url 'home' %}" class="btn btn-secondary">
+                    🏠 Home
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

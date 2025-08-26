@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contests | Aptitude Prep</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #5b5bf6;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.home {
+            background: #10b981;
+        }
+
+        .nav-btn.home:hover {
+            background: #059669;
+        }
+
+        .nav-btn.logout {
+            background: #ef4444;
+        }
+
+        .nav-btn.logout:hover {
+            background: #dc2626;
+        }
+
+        .page-title {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 48px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .coming-soon-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .trophy-icon {
+            font-size: 120px;
+            margin-bottom: 32px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .coming-soon-card {
+            background: rgba(51, 65, 85, 0.8);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 20px;
+            padding: 48px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .coming-soon-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 24px;
+        }
+
+        .coming-soon-subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            color: #e2e8f0;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .notify-btn {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 24px;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .coming-soon-card {
+                padding: 32px 24px;
+            }
+
+            .trophy-icon {
+                font-size: 80px;
+            }
+
+            .coming-soon-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">Contests</h1>
+        <div class="nav-buttons">
+            {% if user.role == 'student' %}
+            <a href="{% url 'home' %}" class="nav-btn home">
+                🏠 Home
+            </a>
+            {% endif %}
+            <a href="{% url 'logout_view' %}" class="nav-btn logout">
+                🚪 Logout
+            </a>
+        </div>
+    </div>
+
+    <h1 class="page-title">🏆 Contests</h1>
+
+    <div class="coming-soon-container">
+        <div class="trophy-icon">🏆</div>
+        
+        <div class="coming-soon-card">
+            <h2 class="coming-soon-title">Exciting Contests Coming Soon!</h2>
+            <p class="coming-soon-subtitle">
+                Get ready to challenge yourself and compete with other learners in our upcoming contest platform.
+            </p>
+
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <span>Timed aptitude challenges</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <span>Topic-specific competitions</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏅</div>
+                    <span>Leaderboards and rankings</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎁</div>
+                    <span>Prizes and certificates</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <span>Performance analytics</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">👥</div>
+                    <span>Team competitions</span>
+                </div>
+            </div>
+
+            <button class="notify-btn" onclick="alert('We will notify you when contests are available!')">
+                🔔 Notify Me When Available
+            </button>
+        </div>
+    </div>
+</body>
+</html>
